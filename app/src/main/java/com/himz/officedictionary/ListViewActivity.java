@@ -1,5 +1,6 @@
 package com.himz.officedictionary;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -19,34 +20,35 @@ import java.util.List;
 
 public class ListViewActivity extends ActionBarActivity {
     @Override
-    public void onCreate( Bundle savedInstanceState )
-    {
-        super.onCreate( savedInstanceState );
-        setContentView( R.layout.activity_list_view );
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_list_view);
         List<String> data = new ArrayList<String>();
         List<Phrase> phraseList = new ArrayList<Phrase>();
         phraseList = DashboardManager.getAllPrase(this.getApplication());
-        for ( int i = 1; i <= 10; i++ )
-        {
-            data.add( String.format( "Item %d", i ) );
+        for (int i = 1; i <= 10; i++) {
+            data.add(String.format("Item %d", i));
         }
         //CustomAdapter adapter = new CustomAdapter( this, data, phraseList);
-        CustomAdapter adapter = new CustomAdapter( this, phraseList);
-        ListView listView = (ListView)findViewById( android.R.id.list );
-        listView.setAdapter( adapter );
-        listView.setOnItemClickListener( new AdapterView.OnItemClickListener()
-        {
+        CustomAdapter adapter = new CustomAdapter(this, phraseList);
+        ListView listView = (ListView) findViewById(android.R.id.list);
+        listView.setAdapter(adapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick( AdapterView<?> listView, View view,
-                                     int pos, long id )
-            {
-                TextView textView = (TextView) view.findViewById( android.R.id.text1 );
-                toast( (String) textView.getText() );
+            public void onItemClick(AdapterView<?> listView, View view,
+                                    int pos, long id) {
+
+                Phrase p = (Phrase)listView.getAdapter().getItem(pos);
+                int phraseID = p.getId();
+                Intent myintent=new Intent(ListViewActivity.this, MainActivity.class).putExtra("phraseID", phraseID);
+                startActivity(myintent);
+                TextView textView = (TextView) view.findViewById(android.R.id.text1);
+                toast((String) textView.getText());
             }
-        } );
+        });
     }
-    private void toast( String text )
-    {
+
+    private void toast(String text) {
         Toast.makeText(ListViewActivity.this,
                 String.format("Item clicked: %s", text), Toast.LENGTH_SHORT)
                 .show();

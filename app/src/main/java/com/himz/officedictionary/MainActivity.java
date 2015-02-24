@@ -20,7 +20,10 @@ public class MainActivity extends ActionBarActivity {
         TextView txtMeaning = (TextView) findViewById(R.id.textView3);
         TextView txtUsage = (TextView) findViewById(R.id.textView1);
 
-        Phrase phrase = DashboardManager.getRandomPhrase(this.getApplication());
+        String s= getIntent().getStringExtra("phraseID");
+        Integer phraseID = getIntent().getIntExtra("phrasesID", 1);
+        //Phrase phrase = DashboardManager.getRandomPhrase(this.getApplication());
+        Phrase phrase = DashboardManager.getPhraseFromID(this.getApplication(), phraseID);
         txtPhrase.setText(phrase.getPhraseText());
         txtMeaning.setText(phrase.getMeaning());
         txtUsage.setText(phrase.getUsage());
