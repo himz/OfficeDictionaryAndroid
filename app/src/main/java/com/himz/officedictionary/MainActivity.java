@@ -8,9 +8,11 @@ import android.widget.TextView;
 
 import com.himz.databases.DashboardManager;
 import com.himz.entities.Phrase;
+import com.himz.helpers.App;
 
 
 public class MainActivity extends ActionBarActivity {
+    static App app;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,9 +23,16 @@ public class MainActivity extends ActionBarActivity {
         TextView txtUsage = (TextView) findViewById(R.id.textView1);
 
         String s= getIntent().getStringExtra("phraseID");
-        Integer phraseID = getIntent().getIntExtra("phrasesID", 1);
+        Integer phraseID = getIntent().getIntExtra("phraseID", 1);
+        Phrase phrase = new Phrase();
         //Phrase phrase = DashboardManager.getRandomPhrase(this.getApplication());
-        Phrase phrase = DashboardManager.getPhraseFromID(this.getApplication(), phraseID);
+        //Phrase phrase = DashboardManager.getPhraseFromID(this.getApplication(), phraseID);
+        for (int i = 0; i < app.phraseList.size() ; i++) {
+            if(((Phrase)app.phraseList.get(i)).getId() == phraseID)
+                phrase = app.phraseList.get(i);
+        }
+        if(phrase == null)
+            return;
         txtPhrase.setText(phrase.getPhraseText());
         txtMeaning.setText(phrase.getMeaning());
         txtUsage.setText(phrase.getUsage());

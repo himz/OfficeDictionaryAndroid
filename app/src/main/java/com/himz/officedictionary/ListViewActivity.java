@@ -13,19 +13,23 @@ import android.widget.Toast;
 
 import com.himz.databases.DashboardManager;
 import com.himz.entities.Phrase;
+import com.himz.helpers.App;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class ListViewActivity extends ActionBarActivity {
+    static App app;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_view);
         List<String> data = new ArrayList<String>();
         List<Phrase> phraseList = new ArrayList<Phrase>();
-        phraseList = DashboardManager.getAllPrase(this.getApplication());
+        phraseList = DashboardManager.getAllPhrase(this.getApplication());
+        //app.phraseList = DashboardManager.getAllPhraseFromServer(this.getApplication());
+        app.phraseList = phraseList;
         for (int i = 1; i <= 10; i++) {
             data.add(String.format("Item %d", i));
         }

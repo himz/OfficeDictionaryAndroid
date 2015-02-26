@@ -62,7 +62,7 @@ public class LocalDbAdapter {
 
         public void seedData(SQLiteDatabase db) {
             //@ToDo add Seed data here
-            createPhraseRow(db, 1, "Balls is in your court", "To tell other person politely, that they have to make a decision", "We have delivered as per schedule, ball is in your court now to test the feature and provide feedback", 10, 2);
+            createPhraseRow(db, 1, "Ball is in your court", "To tell other person politely, that they have to make a decision", "We have delivered as per schedule, ball is in your court now to test the feature and provide feedback", 10, 2);
             createPhraseRow(db, 2, "Let's get the ball rolling", "Ask to get started on a task", "We have sufficient data points to get the ball rolling on the task", 15, 1);
         }
 

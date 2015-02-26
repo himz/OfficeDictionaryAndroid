@@ -16,12 +16,17 @@ import java.util.Random;
 public class DashboardManager {
 	static App app;
     static Random rand;
+
+    public static List<Phrase> getAllPhraseFromServer(Context ctx) {
+        return ConnectionHandler.getResponseData(ctx);
+    }
+
 	public static Phrase getPhraseFromID(Context ctx, int phraseID) {
 		app = ((App)ctx.getApplicationContext());
 		return app.db.getPhraseFromID(phraseID);
 	}
 
-    public static List<Phrase> getAllPrase(Context ctx) {
+    public static List<Phrase> getAllPhrase(Context ctx) {
         app = ((App)ctx.getApplicationContext());
         return app.db.getAllPhrase();
     }
