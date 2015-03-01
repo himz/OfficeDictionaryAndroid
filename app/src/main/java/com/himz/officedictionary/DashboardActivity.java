@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -23,11 +24,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.himz.databases.DashboardManager;
 import com.himz.entities.Phrase;
+import com.himz.helpers.App;
 
 
 public class DashboardActivity extends ActionBarActivity implements ActionBar.TabListener {
 
+    public static App app;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -194,21 +198,11 @@ public class DashboardActivity extends ActionBarActivity implements ActionBar.Ta
             View ll = inflater.inflate(R.layout.fragment_dashboard, container, false);
             List<String> data = new ArrayList<String>();
             List<Phrase> phraseList = new ArrayList<Phrase>();
-            Phrase newPhrase = new Phrase();
-            newPhrase.setPhraseText("Phrase 1");
-            newPhrase.setMeaning("meaning 1");;
-            newPhrase.setUsage("usage 1");;
-            newPhrase.setUpVotes(10);;
-            newPhrase.setDownVotes(2);;
-            phraseList.add(newPhrase);
-            newPhrase = new Phrase();
-            newPhrase.setPhraseText("Phrase 2");
-            newPhrase.setMeaning("meaning 2");;
-            newPhrase.setUsage("usage 2");;
-            newPhrase.setUpVotes(15);;
-            newPhrase.setDownVotes(1);;
-            phraseList.add(newPhrase);
-            TextView txtView = (TextView)ll.findViewById(R.id.main_text);
+            phraseList = DashboardManager.getAllPhrase(getActivity().getApplication());
+            //app.phraseList = DashboardManager.getAllPhraseFromServer(this.getApplication());
+            app.phraseList = phraseList;
+
+
             CustomAdapter adapter = new CustomAdapter(this.getActivity(), phraseList);
             ListView listView = (ListView) ll.findViewById(R.id.list);
             listView.setAdapter(adapter);
@@ -219,6 +213,8 @@ public class DashboardActivity extends ActionBarActivity implements ActionBar.Ta
 
                     Phrase p = (Phrase)listView.getAdapter().getItem(pos);
                     int phraseID = p.getId();
+                    Intent myintent=new Intent(getActivity(), MainActivity.class).putExtra("phraseID", phraseID);
+                    startActivity(myintent);
                     TextView textView = (TextView) view.findViewById(android.R.id.text1);
                     toast((String) textView.getText());
                 }
