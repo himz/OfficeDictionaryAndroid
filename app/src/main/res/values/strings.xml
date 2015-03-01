@@ -9,5 +9,6 @@
     <string name="title_section1">New/Trending</string>
     <string name="title_section2">Popular</string>
     <string name="title_section3">Upvoted</string>
+    <string name="portrait_mode_text_view">In Portrait mode</string>
 
 </resources>

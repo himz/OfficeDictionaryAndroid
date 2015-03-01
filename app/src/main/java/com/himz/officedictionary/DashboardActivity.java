@@ -1,5 +1,7 @@
 package com.himz.officedictionary;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import android.support.v7.app.ActionBarActivity;
@@ -16,7 +18,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.himz.entities.Phrase;
 
 
 public class DashboardActivity extends ActionBarActivity implements ActionBar.TabListener {
@@ -180,9 +187,51 @@ public class DashboardActivity extends ActionBarActivity implements ActionBar.Ta
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_dashboard, container, false);
-            return rootView;
+            if (container == null) {
+                return null;
+            }
+
+            View ll = inflater.inflate(R.layout.fragment_dashboard, container, false);
+            List<String> data = new ArrayList<String>();
+            List<Phrase> phraseList = new ArrayList<Phrase>();
+            Phrase newPhrase = new Phrase();
+            newPhrase.setPhraseText("Phrase 1");
+            newPhrase.setMeaning("meaning 1");;
+            newPhrase.setUsage("usage 1");;
+            newPhrase.setUpVotes(10);;
+            newPhrase.setDownVotes(2);;
+            phraseList.add(newPhrase);
+            newPhrase = new Phrase();
+            newPhrase.setPhraseText("Phrase 2");
+            newPhrase.setMeaning("meaning 2");;
+            newPhrase.setUsage("usage 2");;
+            newPhrase.setUpVotes(15);;
+            newPhrase.setDownVotes(1);;
+            phraseList.add(newPhrase);
+            TextView txtView = (TextView)ll.findViewById(R.id.main_text);
+            CustomAdapter adapter = new CustomAdapter(this.getActivity(), phraseList);
+            ListView listView = (ListView) ll.findViewById(R.id.list);
+            listView.setAdapter(adapter);
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> listView, View view,
+                                        int pos, long id) {
+
+                    Phrase p = (Phrase)listView.getAdapter().getItem(pos);
+                    int phraseID = p.getId();
+                    TextView textView = (TextView) view.findViewById(android.R.id.text1);
+                    toast((String) textView.getText());
+                }
+            });
+            return ll;
         }
+
+        private void toast(String text) {
+            Toast.makeText(getActivity(),
+                    String.format("Item clicked: %s", text), Toast.LENGTH_SHORT)
+                    .show();
+        }
+
     }
 
 }
