@@ -196,10 +196,21 @@ public class DashboardActivity extends ActionBarActivity implements ActionBar.Ta
             }
 
             View ll = inflater.inflate(R.layout.fragment_dashboard, container, false);
+
+
+
             List<String> data = new ArrayList<String>();
             List<Phrase> phraseList = new ArrayList<Phrase>();
             //phraseList = DashboardManager.getAllPhrase(getActivity().getApplication());
             phraseList = DashboardManager.getUpVotedPhraseFromServer(getActivity().getApplication());
+            int sectionNumber = (int)this.getArguments().get(ARG_SECTION_NUMBER);
+            if(sectionNumber == 1) {
+                phraseList = DashboardManager.getNewAndTrendingPhraseFromServer(getActivity().getApplication());
+            } else if (sectionNumber == 2) {
+                phraseList = DashboardManager.getPopularPhraseFromServer(getActivity().getApplication());
+            } else {
+                phraseList = DashboardManager.getUpVotedPhraseFromServer(getActivity().getApplication());
+            }
             //app.phraseList = DashboardManager.getAllPhraseFromServer(this.getApplication());
             app.phraseList = phraseList;
 
