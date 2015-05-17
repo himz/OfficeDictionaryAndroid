@@ -10,21 +10,31 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Example file to take care of calling the database
+ * File to take care of calling the database
  *
  */
 public class DashboardManager {
 	static App app;
     static Random rand;
 
-    public static List<Phrase> getAllPhraseFromServer(Context ctx) {
-        return ConnectionHandler.getResponseData(ctx);
+    public static List<Phrase> getPopularPhraseFromServer(Context ctx) {
+        return ConnectionHandler.getPopularPhraseList(ctx);
+    }
+
+    public static List<Phrase> getUpVotedPhraseFromServer(Context ctx) {
+        return ConnectionHandler.getUpVotedPhraseList(ctx);
+    }
+
+    public static List<Phrase> getNewAndTrendingPhraseFromServer(Context ctx) {
+        return ConnectionHandler.getNewTrendingPhraseList(ctx);
     }
 
 	public static Phrase getPhraseFromID(Context ctx, int phraseID) {
 		app = ((App)ctx.getApplicationContext());
 		return app.db.getPhraseFromID(phraseID);
 	}
+
+    /* Function to get data from the database, which is not required as of now */
 
     public static List<Phrase> getAllPhrase(Context ctx) {
         app = ((App)ctx.getApplicationContext());

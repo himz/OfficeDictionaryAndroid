@@ -198,7 +198,8 @@ public class DashboardActivity extends ActionBarActivity implements ActionBar.Ta
             View ll = inflater.inflate(R.layout.fragment_dashboard, container, false);
             List<String> data = new ArrayList<String>();
             List<Phrase> phraseList = new ArrayList<Phrase>();
-            phraseList = DashboardManager.getAllPhrase(getActivity().getApplication());
+            //phraseList = DashboardManager.getAllPhrase(getActivity().getApplication());
+            phraseList = DashboardManager.getUpVotedPhraseFromServer(getActivity().getApplication());
             //app.phraseList = DashboardManager.getAllPhraseFromServer(this.getApplication());
             app.phraseList = phraseList;
 
