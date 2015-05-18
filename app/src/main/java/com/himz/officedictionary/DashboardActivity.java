@@ -92,6 +92,13 @@ public class DashboardActivity extends ActionBarActivity implements ActionBar.Ta
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_dashboard, menu);
+
+        menu.findItem(R.id.action_settings).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                startActivity(new Intent(DashboardActivity.this, SettingsActivity.class));
+                return true;
+            }
+        });
         return true;
     }
 

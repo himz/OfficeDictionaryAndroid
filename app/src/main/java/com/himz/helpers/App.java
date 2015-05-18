@@ -56,6 +56,12 @@ public class App extends Application {
         configHelper = new ConfigHelper();
         configHelper.fetchConfigIfNeeded();
 	}
+
+
+    public static ConfigHelper getConfigHelper() {
+        return configHelper;
+    }
+
 	@Override
 	public void onTerminate() {
 		this.db.close();
