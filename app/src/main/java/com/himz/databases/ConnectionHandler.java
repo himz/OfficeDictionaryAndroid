@@ -22,7 +22,7 @@ import java.util.List;
 public class ConnectionHandler {
 
     public static StringBuilder responseString;
-
+    /*Currently only using json file to give back the data*/
     // Function to server and get response back from server -- json file
     public static List<Phrase> getPopularPhraseList(Context ctx) {
         responseString = new StringBuilder();
