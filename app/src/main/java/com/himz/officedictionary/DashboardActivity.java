@@ -99,6 +99,12 @@ public class DashboardActivity extends ActionBarActivity implements ActionBar.Ta
                 return true;
             }
         });
+        menu.findItem(R.id.action_create_phrase).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                startActivity(new Intent(DashboardActivity.this, PostActivity.class));
+                return true;
+            }
+        });
         return true;
     }
 

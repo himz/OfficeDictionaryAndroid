@@ -51,6 +51,12 @@ public class MainActivity extends ActionBarActivity {
                 return true;
             }
         });
+        menu.findItem(R.id.action_create_phrase).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                startActivity(new Intent(MainActivity.this, PostActivity.class));
+                return true;
+            }
+        });
         return true;
     }
 

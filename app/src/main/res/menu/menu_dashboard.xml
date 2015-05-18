@@ -4,4 +4,6 @@
     tools:context="com.himz.officedictionary.DashboardActivity">
     <item android:id="@+id/action_settings" android:title="@string/action_settings"
         android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_create_phrase" android:title="@string/action_create_phrase"
+        android:orderInCategory="101" app:showAsAction="never" />
 </menu>
