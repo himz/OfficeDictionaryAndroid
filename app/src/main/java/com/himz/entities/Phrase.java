@@ -2,12 +2,24 @@ package com.himz.entities;
 
 public class Phrase {
     int id;
+    String objectId;
     String phraseText;
 	String meaning;
     String usage;
 
     int upVotes;
     int downVotes;
+
+    public Phrase(){
+        super();
+    }
+
+    public Phrase(String objectId,String phraseText, String meaning, String usage){
+        this.objectId = objectId;
+        this.phraseText = phraseText;
+        this.meaning = meaning;
+        this.usage = usage;
+    }
 
     public String getMeaning() {
         return meaning;
@@ -48,6 +60,14 @@ public class Phrase {
 
     public void setPhraseText(String phraseText) {
         this.phraseText = phraseText;
+    }
+
+    public String getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
     }
 
 	public int getId() {

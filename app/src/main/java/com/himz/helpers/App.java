@@ -12,12 +12,18 @@ import com.himz.entities.Phrase;
  */
 
 import android.app.Application;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.himz.databases.LocalDbAdapter;
+import com.himz.officedictionary.R;
 import com.parse.Parse;
+import com.parse.ParseACL;
+import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,8 +62,6 @@ public class App extends Application {
         configHelper = new ConfigHelper();
         configHelper.fetchConfigIfNeeded();
 	}
-
-
     public static ConfigHelper getConfigHelper() {
         return configHelper;
     }

@@ -13,6 +13,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,8 +26,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.himz.databases.DashboardManager;
+import com.himz.entities.ParsePhrase;
 import com.himz.entities.Phrase;
 import com.himz.helpers.App;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 
 public class DashboardActivity extends ActionBarActivity implements ActionBar.TabListener {
@@ -216,19 +222,10 @@ public class DashboardActivity extends ActionBarActivity implements ActionBar.Ta
             List<Phrase> phraseList = new ArrayList<Phrase>();
             //phraseList = DashboardManager.getAllPhrase(getActivity().getApplication());
             phraseList = DashboardManager.getUpVotedPhraseFromServer(getActivity().getApplication());
-            int sectionNumber = (int)this.getArguments().get(ARG_SECTION_NUMBER);
-            if(sectionNumber == 1) {
-                phraseList = DashboardManager.getNewAndTrendingPhraseFromServer(getActivity().getApplication());
-            } else if (sectionNumber == 2) {
-                phraseList = DashboardManager.getPopularPhraseFromServer(getActivity().getApplication());
-            } else {
-                phraseList = DashboardManager.getUpVotedPhraseFromServer(getActivity().getApplication());
-            }
-            //app.phraseList = DashboardManager.getAllPhraseFromServer(this.getApplication());
-            app.phraseList = phraseList;
+            if(app.phraseList == null || app.phraseList.size() == 0)
+                app.phraseList = phraseList;
 
-
-            CustomAdapter adapter = new CustomAdapter(this.getActivity(), phraseList);
+            CustomAdapter adapter = new CustomAdapter(this.getActivity(), app.phraseList);
             ListView listView = (ListView) ll.findViewById(R.id.list);
             listView.setAdapter(adapter);
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -244,7 +241,49 @@ public class DashboardActivity extends ActionBarActivity implements ActionBar.Ta
                     toast((String) textView.getText());
                 }
             });
+            int sectionNumber = (int)this.getArguments().get(ARG_SECTION_NUMBER);
+            if(sectionNumber == 1) {
+                refreshPhraseList(ll,1);
+                //phraseList = DashboardManager.getNewAndTrendingPhraseFromServer(getActivity().getApplication());
+            } else if (sectionNumber == 2) {
+                refreshPhraseList(ll,2);
+                //phraseList = DashboardManager.getPopularPhraseFromServer(getActivity().getApplication());
+            } else {
+                refreshPhraseList(ll,3);
+                //phraseList = DashboardManager.getUpVotedPhraseFromServer(getActivity().getApplication());
+            }
+            //refreshPhraseList(ll);
             return ll;
+        }
+
+        private void refreshPhraseList(final View ll, int state) {
+
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("Phrases");
+            if(state == 1) {
+                //New
+                query.addDescendingOrder("createdAt");
+            }
+            query.findInBackground(new FindCallback<ParseObject>() {
+
+                @Override
+                public void done(List<ParseObject> parsePhraseList, ParseException e) {
+                    if (e == null) {
+                        // If there are results, update the list of posts
+                        // and notify the adapter
+                        app.phraseList.clear();
+                        for (ParseObject parsePhrase : parsePhraseList) {
+                            ParsePhrase pr = (ParsePhrase) parsePhrase;
+                            Phrase phrase = new Phrase(pr.getObjectId(), pr.getPhraseText(),pr.getMeaning(),pr.getUsage());
+                            app.phraseList.add(phrase);
+                        }
+                        ListView listView = (ListView) ll.findViewById(R.id.list);
+                        ((CustomAdapter)listView.getAdapter()).notifyDataSetChanged();
+                        //((ArrayAdapter<Note>) getListAdapter()).notifyDataSetChanged();
+                    } else {
+                        Log.d(getClass().getSimpleName(), "Error: " + e.getMessage());
+                    }
+                }
+            });
         }
 
         private void toast(String text) {
