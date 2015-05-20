@@ -40,6 +40,9 @@ public class App extends Application {
 	/* List of global variables, to be shared across activities */
     public LocalDbAdapter db;
     public static List<Phrase> phraseList;
+    public static List<Phrase> newPhraseList;
+    public static List<Phrase> popularPhraseList;
+    public static List<Phrase> upvotedPhraseList;
 
     private static SharedPreferences preferences;
 

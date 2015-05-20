@@ -77,6 +77,9 @@ public class DashboardActivity extends ActionBarActivity implements ActionBar.Ta
             @Override
             public void onPageSelected(int position) {
                 actionBar.setSelectedNavigationItem(position);
+                Fragment f = ((SectionsPagerAdapter)mViewPager.getAdapter()).getItem(position);
+                View ll = f.getView();
+
             }
         });
 
@@ -180,6 +183,8 @@ public class DashboardActivity extends ActionBarActivity implements ActionBar.Ta
             }
             return null;
         }
+
+
     }
 
     /**
@@ -215,9 +220,6 @@ public class DashboardActivity extends ActionBarActivity implements ActionBar.Ta
             }
 
             View ll = inflater.inflate(R.layout.fragment_dashboard, container, false);
-
-
-
             List<String> data = new ArrayList<String>();
             List<Phrase> phraseList = new ArrayList<Phrase>();
             //phraseList = DashboardManager.getAllPhrase(getActivity().getApplication());
@@ -243,21 +245,16 @@ public class DashboardActivity extends ActionBarActivity implements ActionBar.Ta
             });
             int sectionNumber = (int)this.getArguments().get(ARG_SECTION_NUMBER);
             if(sectionNumber == 1) {
-                refreshPhraseList(ll,1);
-                //phraseList = DashboardManager.getNewAndTrendingPhraseFromServer(getActivity().getApplication());
+                refreshPhraseList(1);
             } else if (sectionNumber == 2) {
-                refreshPhraseList(ll,2);
-                //phraseList = DashboardManager.getPopularPhraseFromServer(getActivity().getApplication());
+                refreshPhraseList(2);
             } else {
-                refreshPhraseList(ll,3);
-                //phraseList = DashboardManager.getUpVotedPhraseFromServer(getActivity().getApplication());
+                refreshPhraseList(3);
             }
-            //refreshPhraseList(ll);
             return ll;
         }
 
-        private void refreshPhraseList(final View ll, int state) {
-
+        public void refreshPhraseList(int state) {
             ParseQuery<ParseObject> query = ParseQuery.getQuery("Phrases");
             if(state == 1) {
                 //New
@@ -270,13 +267,15 @@ public class DashboardActivity extends ActionBarActivity implements ActionBar.Ta
                     if (e == null) {
                         // If there are results, update the list of posts
                         // and notify the adapter
+                        int sectionNumber = (int)getArguments().get(ARG_SECTION_NUMBER);
+                        
                         app.phraseList.clear();
                         for (ParseObject parsePhrase : parsePhraseList) {
                             ParsePhrase pr = (ParsePhrase) parsePhrase;
                             Phrase phrase = new Phrase(pr.getObjectId(), pr.getPhraseText(),pr.getMeaning(),pr.getUsage());
                             app.phraseList.add(phrase);
                         }
-                        ListView listView = (ListView) ll.findViewById(R.id.list);
+                        ListView listView = (ListView) getView().findViewById(R.id.list);
                         ((CustomAdapter)listView.getAdapter()).notifyDataSetChanged();
                         //((ArrayAdapter<Note>) getListAdapter()).notifyDataSetChanged();
                     } else {
