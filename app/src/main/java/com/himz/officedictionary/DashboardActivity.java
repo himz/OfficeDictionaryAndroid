@@ -69,6 +69,8 @@ public class DashboardActivity extends ActionBarActivity implements ActionBar.Ta
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        // Keep the fragments in the memory
+        mViewPager.setOffscreenPageLimit(3);
 
         // When swiping between different sections, select the corresponding
         // tab. We can also use ActionBar.Tab#select() to do this if we have
@@ -111,6 +113,16 @@ public class DashboardActivity extends ActionBarActivity implements ActionBar.Ta
         menu.findItem(R.id.action_create_phrase).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             public boolean onMenuItemClick(MenuItem item) {
                 startActivity(new Intent(DashboardActivity.this, PostActivity.class));
+                return true;
+            }
+        });
+        menu.findItem(R.id.action_refresh_page).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            public boolean onMenuItemClick(MenuItem item) {
+                Fragment f = ((SectionsPagerAdapter)mViewPager.getAdapter()).getItem(0);
+                ((PlaceholderFragment)f).refreshPhraseList(1);
+                ((PlaceholderFragment)f).refreshPhraseList(2);
+                ((PlaceholderFragment)f).refreshPhraseList(3);
+
                 return true;
             }
         });
@@ -206,6 +218,7 @@ public class DashboardActivity extends ActionBarActivity implements ActionBar.Ta
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
             fragment.setArguments(args);
+
             return fragment;
         }
 
@@ -277,6 +290,7 @@ public class DashboardActivity extends ActionBarActivity implements ActionBar.Ta
                         }
                         ListView listView = (ListView) getView().findViewById(R.id.list);
                         ((CustomAdapter)listView.getAdapter()).notifyDataSetChanged();
+
                         //((ArrayAdapter<Note>) getListAdapter()).notifyDataSetChanged();
                     } else {
                         Log.d(getClass().getSimpleName(), "Error: " + e.getMessage());
